@@ -3,6 +3,7 @@
 This application allows users to create, manage, and organize their tasks efficiently. Users can add new tasks, mark tasks as completed, and search for specific tasks using the search functionality.
 
 <h3>Features:</h3>
+
 - Add new tasks
 
 - Mark tasks as completed
@@ -10,6 +11,7 @@ This application allows users to create, manage, and organize their tasks effici
 - Search for tasks
 
 <h3>Usage:</h3>
+
 - To add a new task, type the task in the text field at the bottom of the screen and press the add button.
 
 - To mark a task as completed, tap on the checkbox next to the task.
