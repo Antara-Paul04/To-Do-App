@@ -30,7 +30,7 @@ class Tasks extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(170, 8,0,8),
+              padding: const EdgeInsets.fromLTRB(180, 8,0,8),
               child: IconButton(
                 onPressed: (){
                   print("Delete button was pressed");
