@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './widgets/tasks.dart';
 import './models/todo.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final todosList = ToDo.todoList();
+  final List<ToDo> todosList = [];
+  final Uuid uuid = Uuid();
+  final TextEditingController _textEditingController = TextEditingController();
+  List<ToDo> foundTodo = [];
 
   void handleTodoChange(ToDo todo) {
     setState(() {
@@ -24,6 +28,20 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       todosList.removeWhere((item) => item.id == id);
     });
+  }
+
+  void addItem(String taskText) {
+    String id = uuid.v4();
+    setState(() {
+      todosList.add(ToDo(id: id, todoText: taskText));
+      _textEditingController.clear();
+    });
+  }
+
+  @override
+  void initState() {
+    foundTodo = todosList;
+    super.initState();
   }
 
   @override
@@ -53,24 +71,37 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Column(
-                      children: [
-                        for (ToDo todo in todosList)
-                          Column(
-                            children: [
-                              Tasks(
-                                todo: todo,
-                                onTodoChanged: handleTodoChange,
-                                onDeleteItem: deleteItem,
-                              ),
-                              SizedBox(height: 20),
-                            ],
+                  todosList.isEmpty? Padding(
+                          padding: const EdgeInsets.fromLTRB(35, 20, 20, 20),
+                          child: Text(
+                            "Add your Tasks to get started",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: ListView(
+                              children: [
+                                for (ToDo todo in foundTodo)
+                                  Column(
+                                    children: [
+                                      Tasks(
+                                        todo: todo,
+                                        onTodoChanged: handleTodoChange,
+                                        onDeleteItem: deleteItem,
+                                      ),
+                                      SizedBox(height: 20),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                 ],
               ),
               Positioned(
@@ -83,6 +114,7 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       Expanded(
                         child: TextField(
+                          controller: _textEditingController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(50),
@@ -108,7 +140,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            print("Add button was pressed");
+                            addItem(_textEditingController.text.trim());
                           },
                           icon: Icon(Icons.add),
                           color: Colors.black,
@@ -125,21 +157,35 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-}
 
-Widget searchBox() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-    child: TextField(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(20),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: BorderSide(color: Color(0xFF745E96)),
+  Widget searchBox() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+      child: TextField(
+        onChanged: (value) => _searchItem(value),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(100),
+            borderSide: BorderSide(color: Color(0xFF745E96)),
+          ),
+          prefixIcon: Icon(Icons.search, color: Color(0xFF745E96), size: 20),
+          hintText: "Search for your tasks",
         ),
-        prefixIcon: Icon(Icons.search, color: Color(0xFF745E96), size: 20),
-        hintText: "Search for your tasks",
       ),
-    ),
-  );
+    );
+  }
+
+  void _searchItem(String search) {
+    List<ToDo> results = [];
+    if (search.isEmpty) {
+      results = todosList;
+    } else {
+      results = todosList.where((item) => item.todoText!.toLowerCase().contains(search.toLowerCase())).toList();
+    }
+
+    setState(() {
+      foundTodo = results;
+    });
+  }
 }
