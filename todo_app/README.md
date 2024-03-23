@@ -1,16 +1,20 @@
-# todo_app
+<h1 style="color: #8A5CF5;">A basic To-Do App using Flutter</h1>
+<h3 >Description:</h3>
+This application allows users to create, manage, and organize their tasks efficiently. Users can add new tasks, mark tasks as completed, and search for specific tasks using the search functionality.
 
-A new Flutter project.
+<h3>Features:</h3>
+- Add new tasks
 
-## Getting Started
+- Mark tasks as completed
 
-This project is a starting point for a Flutter application.
+- Search for tasks
 
-A few resources to get you started if this is your first Flutter project:
+<h3>Usage:</h3>
+- To add a new task, type the task in the text field at the bottom of the screen and press the add button.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- To mark a task as completed, tap on the checkbox next to the task.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- To search for a specific task, type the search query in the search box at the top of the screen.
+
+<h3>License:</h3>
+This project is licensed under the MIT License
