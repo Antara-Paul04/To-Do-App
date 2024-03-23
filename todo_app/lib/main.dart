@@ -3,13 +3,11 @@ import './widgets/tasks.dart';
 import './models/todo.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  final todoList= ToDo.todoList();
+  final todosList = ToDo.todoList();
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +38,13 @@ class MyApp extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Column(
                   children: [
-                    Tasks(),
-                    SizedBox(height: 20),
+                    for (ToDo todoo in todosList)
+                      Column(
+                        children: [
+                          Tasks(todo: todoo),
+                          SizedBox(height: 20),
+                        ],
+                      ),
                   ],
                 ),
               ),
